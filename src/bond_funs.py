@@ -136,8 +136,8 @@ def pricing_residuals(theta, bonds):
 
     for bond in bonds:
         model_price = model_dirty_price(
-            times=bond["times"],
-            cash_flows=bond["cash_flows"],
+            t=bond["times"],
+            cashflows=bond["cash_flows"],
             theta=theta,
         )
 
@@ -145,3 +145,4 @@ def pricing_residuals(theta, bonds):
         residuals.append(residual)
 
     return np.asarray(residuals)
+
