@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 from pandas.tseries.offsets import MonthEnd
+from scipy.optimize import brentq
 
 
 def previous_coupon_date(date, preserve_month_end):
@@ -145,4 +146,39 @@ def pricing_residuals(theta, bonds):
         residuals.append(residual)
 
     return np.asarray(residuals)
+
+def transform_theta(z,  epsilon=1e-8):
+    beta1 = z[1]
+    beta0 = -beta1 + epsilon + np.exp(z[0])
+
+    return np.array([
+        beta0,
+        beta1,
+        z[2],
+        z[3],
+        z[4],
+        z[5],
+    ])
+
+def constrained_residuals(z, bonds_data, epsilon=1e-8):
+    theta = transform_theta(z, epsilon)
+    return pricing_residuals(theta, bonds_data)
+
+def ytm_from_price(price, times, cashflows, frequency=2):
+    """
+    Bond-equivalent YTM with semiannual compounding.
+    """
+    def price_error(yield_rate):
+        discount_factors = (
+            1 + yield_rate / frequency
+        ) ** (-frequency * times)
+
+        calculated_price = np.sum(cashflows * discount_factors)
+        return calculated_price - price
+
+    return brentq(
+        price_error,
+        a=-0.99,
+        b=1.00,
+    )
 
