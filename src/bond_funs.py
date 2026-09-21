@@ -98,10 +98,10 @@ def svensson_zero_rate(t, theta):
     x_1 = t / tau_1
     x_2 = t / tau_2
 
-    level_slope_1 = 1-np.exp(-x_1) / x_1
+    level_slope_1 = (1-np.exp(-x_1)) / x_1
     curvature_1 = level_slope_1 - np.exp(-x_1)
 
-    level_slope_2 = 1-np.exp(-x_2) / x_2
+    level_slope_2 = (1-np.exp(-x_2)) / x_2
     curvature_2 = level_slope_2 - np.exp(-x_2)
 
     return (
