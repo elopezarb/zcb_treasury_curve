@@ -35,13 +35,13 @@ continuously compounded zero rate.
 3. **Calculate dirty prices.** Accrued interest is calculated using the actual
    number of days elapsed and the actual number of days in the coupon period:
 
-   $$
+$$
    AI_i=\frac{Coupon_i}{2}
    \frac{\text{days since previous coupon}}
         {\text{days in coupon period}},
    \qquad
    P_i^{dirty}=P_i^{clean}+AI_i.
-   $$
+$$
 
 4. **Build the cash flows.** Every remaining coupon is included, and the final
    payment contains the last coupon plus $100 of principal.
@@ -49,29 +49,29 @@ continuously compounded zero rate.
    $\theta=(\beta_0,\beta_1,\beta_2,\beta_3,\tau_1,\tau_2)$, the model rate is:
    
 
-   $$
+$$
    \begin{aligned}
    z(t)={}&\beta_0
    +\beta_1\left(\frac{1-e^{-t/\tau_1}}{t/\tau_1}\right) \\
    &+\beta_2\left(\frac{1-e^{-t/\tau_1}}{t/\tau_1}-e^{-t/\tau_1}\right) \\
    &+\beta_3\left(\frac{1-e^{-t/\tau_2}}{t/\tau_2}-e^{-t/\tau_2}\right).
    \end{aligned}
-   $$
+$$
 
    The model-implied dirty price is
 
-   $$
+$$
    P_i(\theta)=\sum_{j=1}^{N_i}CF_{ij}
    e^{-z(t_{ij};\theta)t_{ij}}.
-   $$
+$$
 
    SciPy's nonlinear least-squares solver estimates the common parameter vector
    by minimizing
 
-   $$
-   \widehat{\theta}=\operatorname*{arg\,min}_{\theta}
+$$
+   \widehat{\theta}= \underset{\theta}{\arg\min}
    \sum_{i=1}^{N}\left(P_i^{observed}-P_i(\theta)\right)^2.
-   $$
+$$
 
 The implementation reparameterizes the model to enforce
 $\beta_0+\beta_1>0$, which makes the limiting short rate positive. The decay
