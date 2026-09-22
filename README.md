@@ -46,7 +46,8 @@ continuously compounded zero rate.
 4. **Build the cash flows.** Every remaining coupon is included, and the final
    payment contains the last coupon plus $100 of principal.
 5. **Fit the Svensson curve.** For parameter vector
-   $\theta=(\beta_0,\beta_1,\beta_2,\beta_3,\tau_1,\tau_2)$, the model rate is
+   $\theta=(\beta_0,\beta_1,\beta_2,\beta_3,\tau_1,\tau_2)$, the model rate is:
+   
 
    $$
    \begin{aligned}
